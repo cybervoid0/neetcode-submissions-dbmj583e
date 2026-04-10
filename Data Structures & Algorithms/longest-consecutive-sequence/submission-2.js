@@ -4,20 +4,23 @@ class Solution {
      * @return {number}
      */
     longestConsecutive(nums) {
-        if (nums.length === 0) return 0;
+        // важно составить сет всех чисел массива чтобы быстро определять есть ли элемент в массиве
         const inNums = new Set(nums);
-        let maxSequence = 1;
+        let maxSequence = 0;
+        // проходимся по уникальным значениям (не по всем числам массива)
         for (const num of inNums.values()) {
+            // если предыдущего нет, значит это НЕ начало последовательности, и можно продолжать
             if (inNums.has(num - 1)) continue;
-            else {
-                let curr = num;
-                let seqLen = 1;
-                while (inNums.has(curr + 1)) {
-                    curr += 1;
-                    seqLen += 1;
-                    if (seqLen > maxSequence) maxSequence += 1;
-                }
+            // нашли потенциальное начало цепочки
+            let curr = num;
+            // наращиваем длину данной цепочки
+            let seqLen = 1;
+            while (inNums.has(curr + 1)) {
+                curr += 1;
+                seqLen += 1;
             }
+            // обновляем размер максимальной цепочки если текущая стала больше
+            maxSequence = Math.max(seqLen, maxSequence);
         }
         return maxSequence;
     }
